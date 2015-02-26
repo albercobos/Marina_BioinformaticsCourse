@@ -20,7 +20,7 @@ has 'Mutant_Phenotype' => (
 
 has 'Linkage_to' => (
     is => 'rw',
-    isa => 'ArrayRef[Gene]',
+    isa => 'ArrayRef[Gene]', #must be a list of gene objects
     predicate => 'has_linkage',
 );
 
@@ -31,7 +31,7 @@ sub test_format_id{
 my $self= shift;
 my $gene_ID= $self -> Gene_ID; #obtains the id of the current gene
 
-#If the id doesn't match the following regular expression, it triggers an error indicating it has the wrong format.
+#If the id doesn't match the following regular expression, it triggers an error indicating it has the wrong format and the program dies
 unless($gene_ID =~ /A[Tt]\d[Gg]\d\d\d\d\d/){ 
     die "Error: The gene ID $gene_ID doesn't have the Arabidopsis format."
     } 

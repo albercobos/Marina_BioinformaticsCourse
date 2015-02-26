@@ -4,20 +4,20 @@ use SeedStock;
 
 has 'Parent1' => (
     is => 'rw',
-    isa => 'SeedStock',
+    isa => 'SeedStock', #must be a SeedStock object
     required => 1,
 );
 
 has 'Parent2' => (
     is => 'rw',
-    isa => 'SeedStock',
+    isa => 'SeedStock', #must be a SeedStock object
     required => 1,
 );
 
 has 'F2_Wild' => (
     is => 'rw',
     isa => 'Int',
-    required => 1,
+    required => 1, #necessary to calculate the linkage of the genes
     default => 0
 );
 

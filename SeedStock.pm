@@ -10,7 +10,7 @@ has 'Seed_ID' => (
 
 has 'Mutant_Gene_ID' => (
     is => 'rw',
-    isa => 'Gene',
+    isa => 'Gene', #must be a gene object
     required => 1,
 );
 
@@ -27,8 +27,8 @@ has 'Storage' => (
 has 'Grams_Remaining' => (
     is => 'rw',
     isa => 'Int',
-    required => 1,
-    default => 0,
+    required => 1, #is required to be able to plant (use the subroutine plant_seeds)
+    default => 0, #if its value is not given, it will be set to 0 automatically
 );
 
 1;
