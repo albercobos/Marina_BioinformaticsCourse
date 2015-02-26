@@ -5,7 +5,7 @@ use Gene;
 use SeedStock;
 use HybridCross;
 use Time::Piece; #module necessary to get the date (in plant_seeds subroutine)
-#use SeedStockDatabase;
+use SeedStockDatabase;
 
 # get the 4 filenames
 my $gene_data_file = $ARGV[0];
@@ -13,18 +13,16 @@ my $stock_data_file = $ARGV[1];
 my $cross_data_file = $ARGV[2];
 my $new_stock_data_filename = $ARGV[3];
 
-
 my $gene_data = &load_gene_data($gene_data_file); # call load data subroutine
 # $gene_data is a hashref $gene_data(Gene_ID) = $Gene_Object
 
 my $stock_data = &load_stock_data($stock_data_file, $gene_data); # call load data subroutine
 # $stock_data is a hashref of $stock_data(Stock_ID) = $SeedStock_Object
 
-#my $database= SeedStockDatabase ->new(); #create a new SeedStockDatabase object
-#$database -> load_from_file($stock_data_file, $gene_data); #this object contains the stock information of the given file
-#$database -> write_database($new_stock_data_filename); #method that prints the database object in a new file
 
-##WARNING: the object doesn't work, because the method doesn't send the $gene_data reference correctly.
+my $database= SeedStockDatabase ->new(); #create a new SeedStockDatabase object
+$database -> load_from_file($stock_data_file, $gene_data); #this object contains the stock information of the given file
+$database -> write_database($new_stock_data_filename); #method that prints the database object in a new file
 
 
 &plant_seeds($stock_data, 7); # current stock data, plant 7 grams

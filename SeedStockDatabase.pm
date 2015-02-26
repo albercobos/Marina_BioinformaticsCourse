@@ -39,9 +39,9 @@ for (my $i=1; $i<scalar(@text); $i++){ #Starts in line 1 because line 0 contains
         Grams_Remaining => $element[4],
     );
     
-    $Seed{$element[0]}= $object; #every time an object is created, it is saved in the hash %Seed with the Seed_ID as the key.
+    $Seed{$object->Seed_ID}= $object; #every time an object is created, it is saved in the hash %Seed with the Seed_ID as the key.
     
-$self -> SeedStock([\%Seed]); #the hash reference is the value of the attribute SeedStock in the database object.
+$self -> SeedStock(\%Seed); #the hash reference is the value of the attribute SeedStock in the database object.
 }
 }
 
@@ -67,12 +67,12 @@ my $first_line= "Seed_Stock\tMutant_Gene_ID\tLast_Planted\tStorage\tGrams_Remain
 &print_file($first_line, $new_filename); #calls the subroutine that prints in a file (or appends it to an existing file)
 
 #Gets the array containing the seeds in this database:
-my @seed_stock= @{$self -> SeedStock};
+my @seed_stock= keys%{$self -> SeedStock};
 
 #For each seed in the database, prints a line with the information of the seed object:
 foreach my $seed(@seed_stock){
     my $seed_object= $self -> get_seed_stock($seed); #gets the reference of each seed object
-    my $stock_line= $seed ."\t". $seed_object->Mutant_Gene_ID ."\t". $seed_object->Last_Planted ."\t". $seed_object->Storage ."\t". $seed_object->Grams_Remaining;
+    my $stock_line= $seed ."\t". $seed_object->Mutant_Gene_ID->Gene_ID ."\t". $seed_object->Last_Planted ."\t". $seed_object->Storage ."\t". $seed_object->Grams_Remaining;
     &print_file($stock_line, $new_filename); #calls the subroutine that prints in a file (or appends it to an existing file)
 }
 }
@@ -82,7 +82,7 @@ sub print_file{
 #Prints a scalar in a new file, or appends it to an existing one.
 #Input: 1. Scalar with the information to print; 2. Name of the outfile.
 
-my ($output, $name)= shift; #scalar with the information to print, name of the outfile
+my ($output, $name)= @_; #scalar with the information to print, name of the outfile
 
 open (OUTFILE, ">>$name"); #opens the file in the write mode
 print OUTFILE "$output\n"; #prints in the opened file
