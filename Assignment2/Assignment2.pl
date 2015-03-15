@@ -43,22 +43,13 @@ while ($unassigned_proteins==1){ #this loop is repeated while there are proteins
             #the method checks if the protein or one in its Interactions attribute is in the current network
         }
         
-        
-        
-        #####################
-        #######################
-        ###########COMPROBAR QUE FUNCIONA SIN EL IF (porque he cambiado el unassigned abajo)
+    
         if (exists $protein_network -> {$network_id}) {
             my @network_list= @{$protein_network -> {$network_id} -> Proteins}; #updates the value of the network list
             $new_size= scalar @network_list; #extracts the new size of the hash, after the possible addition of interactions
         }
         else {last;} #if this network hasn't been created, it means that there is no protein with interactions that hasn't been already included in one network yet
     }
-        #####################
-        #####################
-        ####################
-        
-        
         
     $network_id++; #the next network needs a new id
     
@@ -82,30 +73,6 @@ foreach my $network(keys%{$protein_network}){
 foreach my $network(keys%protein_network){ 
     $protein_network -> {$network} -> get_pathways;
     $protein_network -> {$network} -> get_GO_annotation;
-    
-    ########IMPRIME LOS PATHWAYS DE CADA NETWORK
-    my @pathways= @{$protein_network -> {$network} -> Pathways};
-    foreach (@pathways){
-        my $id= $_ -> KEGG_ID;
-        #print "MIS PATHWAYS $network: $id\n";
-    }
-    
 }
 
 
-######## IMPRIME LOS NETWORKS FINALES
-print "NUMERO DE NETWORKS: ";
-print scalar keys%protein_network;
-print "\n";
-
-foreach my $network(keys%protein_network){
-    my @protein_list= @{$protein_network{$network} -> Proteins};
-    
-    my @network_prots;
-    foreach my $proteina(@protein_list){
-        my $id_prot= $proteina -> Protein_ID;
-        push @network_prots, $id_prot;
-    }
-    print "NETWORK $network: @network_prots\n";
-}
-###########
